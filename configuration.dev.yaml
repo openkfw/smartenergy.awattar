@@ -1,0 +1,18 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+logger:
+  default: warning
+  logs:
+    custom_components.electricity_maps: debug
+    custom_components.hacs: debug
+    aiogithubapi: debug
+
+sensor:
+  - platform: time_date
+    display_options:
+      - 'date_time'
+
+electricity_maps:
+  electricity_maps_api_url: http://mock-api:4000
+  electricity_maps_api_token: TEST

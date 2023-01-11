@@ -1,0 +1,31 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.0"]
+
+[project]
+authors = [
+  {name = "Felix Stark", email = "felix.stark@kfw.de"},
+  {name = "Ingmar Mueller", email = "ingmar.mueller@kfw.de"},
+  {name = "Mario Macai", email = "mario.macai@accenture.com"},
+  {name = "Melissa Schmidt", email = "melissa.schmidt@accenture.com"},
+  {name = "Georgia Moldovan", email = "georgia.moldovan@accenture.com"},
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+dependencies = ["electricity_maps_api"]
+description = "This is an integration for the Home Assistant for Electricity Maps Api."
+keywords = ["electricity_maps", "kfw", "homeassistant"]
+name = "homeassistant_electricity_maps"
+readme = "README.md"
+requires-python = ">=3.7"
+version = "0.1.0"
+
+[project.optional-dependencies]
+dev = ["black", "pylint", "pytest-homeassistant-custom-component", "Flask", "pre-commit"]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/openkfw/smartenergy.electricity-maps/issues"
+"Homepage" = "https://github.com/openkfw/smartenergy.electricity-maps"

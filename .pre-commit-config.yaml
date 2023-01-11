@@ -1,0 +1,27 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+default_stages: [push]
+repos:
+-   repo: local
+    hooks:
+    -   id: black
+        name: black
+        entry: black
+        language: system
+        types: [python]
+        require_serial: true
+    -   id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
+        require_serial: true
+    -   id: pytest
+        name: pytest
+        entry: pytest
+        language: system
+        types: [python]
+        require_serial: true
+        pass_filenames: false
+        always_run: true
+ s

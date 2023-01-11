@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  mock-api:
+    build: ./mock_api
+    container_name: mock-api
+    ports:
+      - "4000:4000"
+
+  homeassistant:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: homeassistant-electricity-maps-api
+    cap_add:
+      - CAP_NET_RAW
+      - CAP_NET_BIND_SERVICE
+    ports:
+      - "8123:8123"
+    volumes:
+      - ./custom_components/electricity_maps:/config/custom_components/electricity_maps
+      - ./.storage:/config/.storage
