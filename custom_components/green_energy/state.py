@@ -45,7 +45,7 @@ class StateFetcher:
             green_energy.get_electricity_price
         )
 
-        data["forecast"] = fetched_forecast
+        data["data"] = fetched_forecast
 
         _LOGGER.debug("Updated the GreenEnergy coordinator data=%s", data)
 
