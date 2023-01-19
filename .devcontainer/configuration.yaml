@@ -4,7 +4,7 @@ default_config:
 logger:
   default: warning
   logs:
-    custom_components.electricity_maps: debug
+    custom_components.green_energy: debug
     custom_components.hacs: debug
     aiogithubapi: debug
 
@@ -13,6 +13,5 @@ sensor:
     display_options:
       - 'date_time'
 
-electricity_maps:
-  electricity_maps_api_url: http://mock-api:4000
-   electricity_maps_api_token: TEST
+green_energy:
+    green_energy_api_url: http://mock-api:4000

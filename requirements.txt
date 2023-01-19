@@ -1,6 +1,6 @@
 black==22.10.0
 pylint==2.15.3
-electricity_maps_api==0.1.0
+green_energy_api==0.1.0
 pytest-homeassistant-custom-component==0.12.10
 Flask==2.0.3
 pre-commit==2.20.0

@@ -1,6 +1,6 @@
 FROM homeassistant/home-assistant:stable
 
-RUN python3 -m pip install "electricity_maps_api==0.1.0"
+RUN python3 -m pip install "green_energy_api==0.1.0"
 
-COPY custom_components/electricity_maps /config/custom_components/electricity_maps
+COPY custom_components/green_energy /config/custom_components/green_energy
 COPY configuration.dev.yaml /config/configuration.yaml

@@ -1,4 +1,4 @@
-"""Mock API for the Electricity Maps."""
+"""Mock API for the Green Energy API."""
 
 import json
 
@@ -7,29 +7,23 @@ from flask import Flask, request
 app = Flask(__name__)
 
 
-def _generate_electricity_maps_response(zone: str) -> dict:
-    """Generate a mock response for the Electricity Maps API."""
+def _generate_energy_price_response() -> dict:
+    """Generate a mock response for the Green Energy API."""
     f = open("forecast_de.json", "r")
     data = json.loads(f.read())
     f.close()
 
     return {
-        "zone": zone,
-        "forecast": data["forecast"],
-        "updatedAt": data["updatedAt"],
+        "forecast": data["data"],
     }
 
 
-@app.route("/carbon-intensity/forecast", methods=["GET"])
-def co2_forecast() -> dict:
+@app.route("/v1/marketplace", methods=["GET"])
+def price_forecast() -> dict:
     """
-    Return carbon intensity forecast for a given zone.
+    Return price forecast for a given zone.
     """
-    zone = request.args.get("zone")
-    token = request.headers.get("X-BLOBR-KEY")
-    print(f"token: {token}")
-    print(f"zone: {zone}")
-    return _generate_electricity_maps_response(zone)
+    return _generate_energy_price_response()
 
 
 if __name__ == "__main__":
