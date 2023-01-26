@@ -12,12 +12,15 @@ from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 from homeassistant.components.sensor import (
     DOMAIN as SENSOR_DOMAIN,
 )
+from green_energy_api.green_energy_api import GreenEnergyApi
 
 from .const import (
+    API,
     DOMAIN,
+    INIT_STATE,
     GREEN_ENERGY_COORDINATOR,
     CONF_GREEN_ENERGY_URL,
-    CONF_GREEN_ENERGY_FORECAST
+    CONF_GREEN_ENERGY_FORECAST,
 )
 from .state import StateFetcher, init_state
 
@@ -65,14 +68,11 @@ def _setup_coordinator(
 
 
 def _setup_apis(config: ConfigType, hass: HomeAssistantType) -> dict:
-    green_energy_api = None
+    green_energy_api: dict[API:GreenEnergyApi] = None
 
     if DOMAIN in config:
         hass.data[DOMAIN] = {}
-        scan_interval = config[DOMAIN].get
-        (CONF_SCAN_INTERVAL, DEFAULT_UPDATE_INTERVAL)
-
-        _LOGGER.debug("Scan interval set to=%s", scan_interval)
+        scan_interval = config[DOMAIN].get(CONF_SCAN_INTERVAL, DEFAULT_UPDATE_INTERVAL)
 
         url = config[DOMAIN].get(CONF_GREEN_ENERGY_URL)
 
@@ -94,16 +94,19 @@ async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
 
     _LOGGER.debug("Setting up the GreenEnergy integration")
 
-    scan_interval = DEFAULT_UPDATE_INTERVAL
-    apis = _setup_apis(config, hass)
-    hass.data[DOMAIN] = apis
+    hass.data[DOMAIN] = hass.data[DOMAIN] if DOMAIN in hass.data else {}
+    scan_interval: timedelta = DEFAULT_UPDATE_INTERVAL
+
+    api: dict[API:GreenEnergyApi] = _setup_apis(config, hass)
+    hass.data[DOMAIN][INIT_STATE] = api
 
     await _setup_coordinator(
         StateFetcher, scan_interval, GREEN_ENERGY_COORDINATOR, hass
     ).async_refresh()
 
-    forecast_data: list[str] = hass.data
-    [DOMAIN][GREEN_ENERGY_COORDINATOR].data["forecast"]
+    forecast_data: list[str] = hass.data[DOMAIN][GREEN_ENERGY_COORDINATOR].data[
+        "forecast"
+    ]
 
     # load platform with sensors
     hass.async_create_task(
