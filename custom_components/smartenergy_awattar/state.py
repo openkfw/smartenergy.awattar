@@ -4,10 +4,12 @@ import logging
 from datetime import datetime
 
 from awattar_api.awattar_api import AwattarApi
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
-from .const import API, DOMAIN, INIT_STATE
+from .const import API, DOMAIN, INIT_STATE, UNSUB_OPTIONS_UPDATE_LISTENER
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: logging.Logger = logging.getLogger(__name__)
 
 
 def init_state(
@@ -17,49 +19,50 @@ def init_state(
     Initialize the state with Awattar API.
     """
 
-    return {
-        API: AwattarApi(url),
-    }
+    return {API: AwattarApi(url), UNSUB_OPTIONS_UPDATE_LISTENER: {}}
 
 
 class StateFetcher:
     """Representation of the coordinator state handling. Whenever the coordinator is triggered,
     it will call the APIs and update status data."""
 
-    coordinator = None
+    coordinator: DataUpdateCoordinator
 
-    def __init__(self, hass):
-        self._hass = hass
+    def __init__(self, hass: HomeAssistant) -> None:
+        """Construct controller with hass property."""
+        self._hass: HomeAssistant = hass
 
-    async def fetch_states(self):
+    async def fetch_states(self) -> dict:
         """Fetch Awattar forecast via API."""
 
         _LOGGER.debug("Updating the Awattar coordinator data...")
 
-        awattar = self._hass.data[DOMAIN][INIT_STATE][API]
+        init_state = self._hass.data[DOMAIN][INIT_STATE]
         data: dict = self.coordinator.data if self.coordinator.data else {}
 
-        fetched_forecast: dict = await self._hass.async_add_executor_job(
-            awattar.get_electricity_price
-        )
-
-        forecast_data = []
-
-        for forecast_entry in fetched_forecast["data"]:
-            # convert timestamp to human readable date
-            forecast_data.append(
-                {
-                    "start_time": datetime.utcfromtimestamp(
-                        forecast_entry["start_timestamp"] / 1000
-                    ).strftime("%Y-%m-%d %H:%M:%S"),
-                    "end_time": datetime.utcfromtimestamp(
-                        forecast_entry["end_timestamp"] / 1000
-                    ).strftime("%Y-%m-%d %H:%M:%S"),
-                    "marketprice": forecast_entry["marketprice"],
-                }
+        if API in init_state:
+            awattarApi = init_state[API]
+            fetched_forecast: dict = await self._hass.async_add_executor_job(
+                awattarApi.get_electricity_price
             )
 
-        data["forecast"] = forecast_data
-        _LOGGER.debug("Updated the Awattar coordinator data=%s", data)
+            forecast_data = []
+
+            for forecast_entry in fetched_forecast["data"]:
+                # convert timestamp to human readable date
+                forecast_data.append(
+                    {
+                        "start_time": datetime.utcfromtimestamp(
+                            forecast_entry["start_timestamp"] / 1000
+                        ).strftime("%Y-%m-%d %H:%M:%S"),
+                        "end_time": datetime.utcfromtimestamp(
+                            forecast_entry["end_timestamp"] / 1000
+                        ).strftime("%Y-%m-%d %H:%M:%S"),
+                        "marketprice": forecast_entry["marketprice"],
+                    }
+                )
+
+            data["forecast"] = forecast_data
+            _LOGGER.debug("Updated the Awattar coordinator data=%s", data)
 
         return data
