@@ -73,19 +73,12 @@ def _setup_coordinator(
     return coordinator
 
 
-def _setup_apis(hass: HomeAssistant, config: ConfigType) -> dict:
+def _setup_api(config: ConfigType) -> dict:
     awattar_api = {}
 
-    if DOMAIN in config:
-        hass.data[DOMAIN] = {}
-
-        country: str = config[DOMAIN].get(CONF_COUNTRY)
-
-        _LOGGER.debug("Configuring Awattar API")
-        awattar_api = init_state(AWATTAR_API_URL[country])
-    else:
-        _LOGGER.warning("Missing %s entry in the config", DOMAIN)
-
+    country: str = config[DOMAIN].get(CONF_COUNTRY)
+    _LOGGER.debug("Configuring Awattar API")
+    awattar_api = init_state(AWATTAR_API_URL[country])
     _LOGGER.debug("Configured Awattar API")
 
     return awattar_api
@@ -185,21 +178,28 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     hass.data[DOMAIN] = hass.data[DOMAIN] if DOMAIN in hass.data else {}
     scan_interval: timedelta = DEFAULT_UPDATE_INTERVAL
 
-    hass.data[DOMAIN][INIT_STATE] = _setup_apis(hass, config)
+    hass.data[DOMAIN] = {INIT_STATE: {}}
 
-    await _setup_coordinator(hass, scan_interval, AWATTAR_COORDINATOR).async_refresh()
+    if DOMAIN in config:
+        hass.data[DOMAIN][INIT_STATE] = _setup_api(config)
 
-    # load all platforms
-    for platform in PLATFORMS:
-        hass.async_create_task(
-            async_load_platform(
-                hass,
-                platform,
-                DOMAIN,
-                {},
-                config,
+        await _setup_coordinator(
+            hass, scan_interval, AWATTAR_COORDINATOR
+        ).async_refresh()
+
+        # load all platforms
+        for platform in PLATFORMS:
+            hass.async_create_task(
+                async_load_platform(
+                    hass,
+                    platform,
+                    DOMAIN,
+                    {},
+                    config,
+                )
             )
-        )
+    else:
+        _LOGGER.warning("Missing %s entry in the config", DOMAIN)
 
     _LOGGER.debug("Setup for the Awattar integration completed")
 

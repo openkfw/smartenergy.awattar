@@ -57,12 +57,15 @@ class AwattarConfigFlow(ConfigFlow, domain=DOMAIN):
         data_schema: dict = _get_config_schema({CONF_SCAN_INTERVAL: 10})
 
         if user_input is not None:
+            await self.async_set_unique_id(DOMAIN)
+            self._abort_if_unique_id_configured()
+
             # set default values to the current so the user is still within the same context,
             # otherwise it makes each input empty
             data_schema = _get_config_schema(
                 {
                     CONF_COUNTRY: user_input.get(CONF_COUNTRY),
-                    CONF_SCAN_INTERVAL: user_input.get(CONF_SCAN_INTERVAL, 10),
+                    CONF_SCAN_INTERVAL: user_input.get(CONF_SCAN_INTERVAL),
                 }
             )
 
@@ -96,9 +99,7 @@ class AwattarOptionsFlowHandler(OptionsFlow):
         data_schema: dict = _get_config_schema(
             {
                 CONF_COUNTRY: self.config_entry.options.get(CONF_COUNTRY),
-                CONF_SCAN_INTERVAL: self.config_entry.options.get(
-                    CONF_SCAN_INTERVAL, 10
-                ),
+                CONF_SCAN_INTERVAL: self.config_entry.options.get(CONF_SCAN_INTERVAL),
             }
         )
 
@@ -108,7 +109,7 @@ class AwattarOptionsFlowHandler(OptionsFlow):
             data_schema = _get_config_schema(
                 {
                     CONF_COUNTRY: user_input.get(CONF_COUNTRY),
-                    CONF_SCAN_INTERVAL: user_input.get(CONF_SCAN_INTERVAL, 10),
+                    CONF_SCAN_INTERVAL: user_input.get(CONF_SCAN_INTERVAL),
                 }
             )
 
