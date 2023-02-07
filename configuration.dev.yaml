@@ -4,14 +4,14 @@ default_config:
 logger:
   default: warning
   logs:
-    custom_components.green_energy: debug
+    custom_components.smartenergy_awattar: debug
     custom_components.hacs: debug
     aiogithubapi: debug
 
 sensor:
   - platform: time_date
     display_options:
-      - 'date_time'
+      - "date_time"
 
-green_energy:
-  green_energy_api_url: http://mock-api:4000
+smartenergy_awattar:
+  host: https://api.awattar.de

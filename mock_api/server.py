@@ -1,4 +1,4 @@
-"""Mock API for the Green Energy API."""
+"""Mock API for the Awattar API."""
 
 import json
 
@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 def _generate_energy_price_response() -> dict:
-    """Generate a mock response for the Green Energy API."""
+    """Generate a mock response for the Awattar API."""
     f = open("forecast_de.json", "r")
     data = json.loads(f.read())
     f.close()

@@ -4,7 +4,7 @@
 env
 custom_components/___pycache__
 custom_components/___init__.py
-custom_components/green_energy/__pycache__
+custom_components/smartenergy_awattar/__pycache__
 tests
 
 .coverage

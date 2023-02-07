@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-CONTAINER_NAME="homeassistant_green_energy"
+CONTAINER_NAME="homeassistant-awattar"
 CONTAINER_ENGINE="${1:-podman}"
 COMPOSE_ENGINE="${2:-podman-compose}"
 
@@ -25,4 +25,4 @@ watch() {
     done
 }
 
-watch "./custom_components/green_energy" 3
+watch "./custom_components/smartenergy_awattar" 3

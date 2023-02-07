@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-export PROJECT=green_energy
-CONTAINER_NAME="homeassistant_green_energy"
+export PROJECT=awattar
+CONTAINER_NAME="homeassistant_awattar"
 
 podman network create -d bridge $PROJECT || true
 

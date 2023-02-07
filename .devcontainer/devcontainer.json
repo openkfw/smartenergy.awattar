@@ -1,7 +1,7 @@
 // See https://aka.ms/vscode-remote/devcontainer.json for format details.
 {
 	"image": "ghcr.io/ludeeus/devcontainer/integration:stable",
-	"name": "Green Energy integration development",
+	"name": "Awattar integration development",
 	"context": "..",
 	"build": { "dockerfile": "../Dockerfile.dev" },
 	"appPort": [

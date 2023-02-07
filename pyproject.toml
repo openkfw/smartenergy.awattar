@@ -12,20 +12,20 @@ authors = [
 ]
 classifiers = [
   "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: MIT License",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
   "Operating System :: OS Independent",
 ]
-dependencies = ["green_energy_api"]
-description = "This is an integration for the Home Assistant for Green Energy Api."
-keywords = ["green_energy", "kfw", "homeassistant"]
-name = "homeassistant_green_energy"
+dependencies = ["smart-energy.awattar-api"]
+description = "This is an integration for the Home Assistant for the Awattar API."
+keywords = ["awattar", "kfw", "homeassistant"]
+name = "smartenergy_awattar"
 readme = "README.md"
 requires-python = ">=3.7"
 version = "0.1.0"
 
 [project.optional-dependencies]
-dev = ["black", "pylint", "pytest-homeassistant-custom-component", "Flask", "pre-commit"]
+dev = ["black", "pylint", "pytest-homeassistant-custom-component", "Flask", "pre-commit", "isort"]
 
 [project.urls]
-"Bug Tracker" = "https://github.com/openkfw/smartenergy.green_energy/issues"
-"Homepage" = "https://github.com/openkfw/smartenergy.green_energy"
+"Bug Tracker" = "https://github.com/openkfw/smartenergy.awattar/issues"
+"Homepage" = "https://github.com/openkfw/smartenergy.awattar"

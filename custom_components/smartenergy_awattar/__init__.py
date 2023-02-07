@@ -1,40 +1,38 @@
-"""Shelly Cloud integration"""
+"""Awattar integration"""
 
 import logging
 from datetime import timedelta
 import voluptuous as vol
 
 import homeassistant.helpers.config_validation as cv
-from homeassistant.const import CONF_SCAN_INTERVAL
+from homeassistant.const import CONF_SCAN_INTERVAL, CONF_HOST
 from homeassistant.helpers.discovery import async_load_platform
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 from homeassistant.components.sensor import (
     DOMAIN as SENSOR_DOMAIN,
 )
-from green_energy_api.green_energy_api import GreenEnergyApi
+from awattar_api.awattar_api import AwattarApi
 
 from .const import (
     API,
     DOMAIN,
     INIT_STATE,
-    GREEN_ENERGY_COORDINATOR,
-    CONF_GREEN_ENERGY_URL,
-    CONF_GREEN_ENERGY_FORECAST,
+    AWATTAR_COORDINATOR,
 )
 from .state import StateFetcher, init_state
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: logging.Logger = logging.getLogger(__name__)
 
 MIN_UPDATE_INTERVAL: timedelta = timedelta(seconds=10)
 DEFAULT_UPDATE_INTERVAL: timedelta = timedelta(seconds=10)
 
 # Configuration validation
-CONFIG_SCHEMA = vol.Schema(
+CONFIG_SCHEMA: vol.Schema = vol.Schema(
     {
         DOMAIN: vol.Schema(
             {
-                vol.Required(CONF_GREEN_ENERGY_URL): vol.All(cv.string),
+                vol.Required(CONF_HOST): vol.All(cv.string),
                 vol.Optional(
                     CONF_SCAN_INTERVAL, default=DEFAULT_UPDATE_INTERVAL
                 ): vol.All(cv.time_period, vol.Clamp(min=MIN_UPDATE_INTERVAL)),
@@ -68,45 +66,40 @@ def _setup_coordinator(
 
 
 def _setup_apis(config: ConfigType, hass: HomeAssistantType) -> dict:
-    green_energy_api: dict[API:GreenEnergyApi] = None
+    awattar_api: dict[API:AwattarApi] = None
 
     if DOMAIN in config:
         hass.data[DOMAIN] = {}
-        scan_interval = config[DOMAIN].get(CONF_SCAN_INTERVAL, DEFAULT_UPDATE_INTERVAL)
 
-        url = config[DOMAIN].get(CONF_GREEN_ENERGY_URL)
+        url = config[DOMAIN].get(CONF_HOST)
 
         _LOGGER.debug(
-            "Configuring API for the GreenEnergy url: '%s'",
+            "Configuring API for the Awattar url: '%s'",
             url,
         )
-        green_energy_api = init_state(url)
+        awattar_api = init_state(url)
     else:
-        raise ValueError("Missing {DOMAIN} entry in the config")
+        _LOGGER.warning("Missing %s entry in the config", DOMAIN)
 
-    _LOGGER.debug("Configured GreenEnergy API")
+    _LOGGER.debug("Configured Awattar API")
 
-    return green_energy_api
+    return awattar_api
 
 
 async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
-    """Set up GreenEnergy platforms and services."""
+    """Set up Awattar platforms and services."""
 
-    _LOGGER.debug("Setting up the GreenEnergy integration")
+    _LOGGER.debug("Setting up the Awattar integration")
 
     hass.data[DOMAIN] = hass.data[DOMAIN] if DOMAIN in hass.data else {}
     scan_interval: timedelta = DEFAULT_UPDATE_INTERVAL
 
-    api: dict[API:GreenEnergyApi] = _setup_apis(config, hass)
+    api: dict[API:AwattarApi] = _setup_apis(config, hass)
     hass.data[DOMAIN][INIT_STATE] = api
 
     await _setup_coordinator(
-        StateFetcher, scan_interval, GREEN_ENERGY_COORDINATOR, hass
+        StateFetcher, scan_interval, AWATTAR_COORDINATOR, hass
     ).async_refresh()
-
-    forecast_data: list[str] = hass.data[DOMAIN][GREEN_ENERGY_COORDINATOR].data[
-        "forecast"
-    ]
 
     # load platform with sensors
     hass.async_create_task(
@@ -114,13 +107,11 @@ async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
             hass,
             SENSOR_DOMAIN,
             DOMAIN,
-            {
-                CONF_GREEN_ENERGY_FORECAST: forecast_data,
-            },
+            {},
             config,
         )
     )
 
-    _LOGGER.debug("Setup for the GreenEnergy integration completed")
+    _LOGGER.debug("Setup for the Awattar integration completed")
 
     return True

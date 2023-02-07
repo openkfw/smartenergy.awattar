@@ -6,7 +6,7 @@ This is a recommended approach by Home Assistant, but feels a bit buggy at the m
 
 1. Install `ms-vscode-remote.remote-containers` VSCode plugin.
 2. Restart VSCode and click `Reopen in Container` on bottom right.
-3. Wait few moments to finish the setup and open the command palette, search for `Tasks: Run Task` and select `Run the mock API server`. This will start the mock  Green Energy REST API.
+3. Wait few moments to finish the setup and open the command palette, search for `Tasks: Run Task` and select `Run the mock API server`. This will start the mock  Awattar REST API.
 4. Open the command palette again, search for `Tasks: Run Task` and select `Run Home Assistant on port 9123`. This will start the Home Assistant with the custom component on port `9123`.
 5. Open the <http://127.0.0.1:9123> in a browser.
 6. Create an account. **This feels quite buggy at the moment and you have to refresh the browser several times.**
@@ -30,7 +30,7 @@ Run:
 ./start-dev.sh
 ```
 
-After few minutes, Home Assistant should be running and script should be in the watch mode. Whenever you change a file in the `custom_components/green_energy` folder, it will restart the Home Assistant within a few seconds. Thus, you have a quick development feedback.
+After few minutes, Home Assistant should be running and script should be in the watch mode. Whenever you change a file in the `custom_components/awattar` folder, it will restart the Home Assistant within a few seconds. Thus, you have a quick development feedback.
 
 1. Open the <http://127.0.0.1:8123> in a browser.
 2. Create an account.
@@ -59,12 +59,12 @@ In case you want to try HACS locally, run:
 2. Create an account - make sure that timezone is set correctly, otherwise it will fail to connect to the Github.
 3. In the left menu you should have HACS icon, click it.
 4. Click on `Integrations` -> click 3 dots top right corner -> click `Custom repositories`.
-5. In the dialog window, add `https://github.com/openkfw/smartenergy.green_energy` as a repository and select `Integration` as a category.
+5. In the dialog window, add `https://github.com/openkfw/smartenergy.awattar` as a repository and select `Integration` as a category.
 6. Click `ADD`, wait for spinner to finish and close the dialog.
-7. Click `EXPLORE & DOWNLOAD REPOSITORIES` -> search for `Green Energy` -> select the ` Green Energy` -> wait and click `DOWNLOAD`.
+7. Click `EXPLORE & DOWNLOAD REPOSITORIES` -> search for `Awattar` -> select the ` Awattar` -> wait and click `DOWNLOAD`.
 8. Go to Settings -> System -> click `RESTART` and wait few seconds.
 9. Go to Settings -> Devices & Services. Click the `ADD INTEGRATION` button.
-10. Search for `Green Energy` -> click -> fill in details -> click `SUBMIT`.
+10. Search for `Awattar` -> click -> fill in details -> click `SUBMIT`.
 
 Example config:
 
@@ -72,7 +72,7 @@ Example config:
 
 > Make sure that there is no trailing slash in the API host, otherwise the validation fails. When pressing submit, validation will also check the connectivity and fails if not able to connect and authenticate.
 
-11. Go to the dashboard screen, you should see bunch of sensors for the Green Energy integration.
+11. Go to the dashboard screen, you should see bunch of sensors for the Awattar integration.
 
 ## Working with virtual env
 
@@ -124,7 +124,7 @@ pylint tests/**/*.py custom_components/**/*.py mock_api/**/*.py
 Formatting is done via [Black](https://black.readthedocs.io/en/stable/getting_started.html).
 
 ```
-black custom_components/green_energy
+black custom_components/awattar
 ```
 
 To have autoformatting in the VSCode, install the extension `ms-python.black-formatter`.
@@ -140,7 +140,7 @@ pytest
 pytest -o log_cli=true
 
 # code coverage
-pytest --durations=10 --cov-report term-missing --cov=custom_components.green_energy tests
+pytest --durations=10 --cov-report term-missing --cov=custom_components.awattar tests
 ```
 
 > **Note: In case you have issues with bcrypt circular import, run this:**
