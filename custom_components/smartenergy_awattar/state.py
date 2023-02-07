@@ -1,14 +1,11 @@
 """Awattar state management"""
 
 import logging
+from datetime import datetime
 
 from awattar_api.awattar_api import AwattarApi
-from datetime import datetime
-from .const import (
-    API,
-    DOMAIN,
-    INIT_STATE,
-)
+
+from .const import API, DOMAIN, INIT_STATE
 
 _LOGGER = logging.getLogger(__name__)
 

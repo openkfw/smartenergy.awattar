@@ -2,24 +2,17 @@
 
 import logging
 from datetime import timedelta
-import voluptuous as vol
 
 import homeassistant.helpers.config_validation as cv
-from homeassistant.const import CONF_SCAN_INTERVAL, CONF_HOST
-from homeassistant.helpers.discovery import async_load_platform
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
-from homeassistant.helpers.typing import ConfigType, HomeAssistantType
-from homeassistant.components.sensor import (
-    DOMAIN as SENSOR_DOMAIN,
-)
+import voluptuous as vol
 from awattar_api.awattar_api import AwattarApi
+from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
+from homeassistant.const import CONF_HOST, CONF_SCAN_INTERVAL
+from homeassistant.helpers.discovery import async_load_platform
+from homeassistant.helpers.typing import ConfigType, HomeAssistantType
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
-from .const import (
-    API,
-    DOMAIN,
-    INIT_STATE,
-    AWATTAR_COORDINATOR,
-)
+from .const import API, AWATTAR_COORDINATOR, DOMAIN, INIT_STATE
 from .state import StateFetcher, init_state
 
 _LOGGER: logging.Logger = logging.getLogger(__name__)

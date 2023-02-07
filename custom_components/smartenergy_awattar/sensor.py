@@ -1,24 +1,18 @@
 """Platform for Awattar sensor integration."""
 import logging
-
 from abc import ABC
 from typing import Callable
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
+
+from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
+from homeassistant.components.sensor import SensorEntity
 from homeassistant.helpers.typing import (
     ConfigType,
-    HomeAssistantType,
     DiscoveryInfoType,
+    HomeAssistantType,
 )
-from homeassistant.components.sensor import (
-    SensorEntity,
-    DOMAIN as SENSOR_DOMAIN,
-)
-from .const import (
-    AWATTAR_COORDINATOR,
-    DOMAIN,
-    MANUFACTURER,
-    UNIT,
-)
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
+
+from .const import AWATTAR_COORDINATOR, DOMAIN, MANUFACTURER, UNIT
 
 _LOGGER = logging.getLogger(__name__)
 

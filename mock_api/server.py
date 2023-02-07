@@ -2,16 +2,16 @@
 
 import json
 
-from flask import Flask, request
+from flask import Flask
 
 app = Flask(__name__)
 
 
 def _generate_energy_price_response() -> dict:
     """Generate a mock response for the Awattar API."""
-    f = open("forecast_de.json", "r")
-    data = json.loads(f.read())
-    f.close()
+    file = open("forecast_de.json", "r")
+    data = json.loads(file.read())
+    file.close()
 
     return {
         "forecast": data["data"],
