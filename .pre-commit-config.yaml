@@ -23,11 +23,3 @@ repos:
         language: system
         types: [python]
         require_serial: true
-      - id: pytest
-        name: pytest
-        entry: pytest
-        language: system
-        types: [python]
-        require_serial: true
-        pass_filenames: false
-        always_run: true
