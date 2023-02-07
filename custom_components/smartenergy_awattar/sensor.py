@@ -1,30 +1,31 @@
 """Platform for Awattar sensor integration."""
+
 import logging
-from abc import ABC
-from typing import Callable
+from collections.abc import Mapping
+from typing import Any, Callable
 
 from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from homeassistant.components.sensor import SensorEntity
-from homeassistant.helpers.typing import (
-    ConfigType,
-    DiscoveryInfoType,
-    HomeAssistantType,
-)
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import AWATTAR_COORDINATOR, DOMAIN, MANUFACTURER, UNIT
 
-_LOGGER = logging.getLogger(__name__)
+_LOGGER: logging.Logger = logging.getLogger(__name__)
 
 
-class BaseSensor(ABC):
-    """Representation of a Base sensor."""
+class ForecastSensor(CoordinatorEntity, SensorEntity):
+    """Representation of a sensor on the forecast of the energy prices integration."""
 
     def __init__(
         self,
         coordinator,
         entity_id,
-    ):
+    ) -> None:
         """Initialize the Base sensor."""
         super().__init__(coordinator)
         self._entity_id: str = entity_id
@@ -32,21 +33,18 @@ class BaseSensor(ABC):
         self._unit: str = UNIT
 
     @property
-    def name(self):
+    def name(self) -> str:
         """The name of the sensor is the timestamp."""
         return self._name
 
     @property
-    def unit_of_measurement(self):
-        """Return the unit of measurement."""
+    def native_unit_of_measurement(self) -> str | None:
+        """Return the unit of measurement of the sensor, if any."""
         return self._unit
 
-
-class ForecastSensor(BaseSensor, CoordinatorEntity, SensorEntity):
-    """Representation of a sensor on the forecast of the energy prices integration."""
-
     @property
-    def device_info(self) -> dict:
+    def device_info(self) -> entity.DeviceInfo:
+        """Return the device information."""
         return {
             "identifiers": {(DOMAIN, self._entity_id)},
             "name": self._name,
@@ -55,35 +53,57 @@ class ForecastSensor(BaseSensor, CoordinatorEntity, SensorEntity):
         }
 
     @property
-    def capability_attributes(self):
-        """Update the value of the entity."""
-        forecast = self.coordinator.data["forecast"]
-        return {
-            "forecast": forecast,
-        }
+    def capability_attributes(self) -> Mapping[str, Any] | None:
+        """Return the capability attributes."""
+        data: dict = self.coordinator.data
+
+        if "forecast" in data:
+            return {
+                "forecast": data["forecast"],
+            }
+
+        return {}
 
 
 def _setup_entities(
-    hass: HomeAssistantType,
+    hass: HomeAssistant,
     async_add_entities: Callable,
+    coordinator_name: str,
 ) -> list:
     async_add_entities(
         [
             ForecastSensor(
-                hass.data[DOMAIN][AWATTAR_COORDINATOR],
+                hass.data[DOMAIN][coordinator_name],
                 f"{SENSOR_DOMAIN}.{DOMAIN}_forecast",
             ),
         ]
     )
 
 
+async def async_setup_entry(
+    hass: HomeAssistant,
+    config_entry: ConfigEntry,
+    async_add_entities: AddEntitiesCallback,
+) -> None:
+    """Set sensors from a config entry created in the integrations UI."""
+
+    entry_id: str = config_entry.entry_id
+    config: dict = hass.data[DOMAIN][entry_id]
+    _LOGGER.debug("Setting up the Awattar sensor for=%s", entry_id)
+
+    if config_entry.options:
+        config.update(config_entry.options)
+
+    _setup_entities(hass, async_add_entities, f"{entry_id}_coordinator")
+
+
 # pylint: disable=unused-argument
 async def async_setup_platform(
-    hass: HomeAssistantType,
+    hass: HomeAssistant,
     config: ConfigType,
-    async_add_entities: Callable,
-    discovery_info: DiscoveryInfoType = None,
-):
+    async_add_entities: AddEntitiesCallback,
+    discovery_info: DiscoveryInfoType | None,
+) -> None:
     """Set up Awattar Sensor platform."""
     _LOGGER.debug("Setting up the Awattar sensor platform")
 
@@ -91,4 +111,4 @@ async def async_setup_platform(
         _LOGGER.error("Missing discovery_info, skipping setup")
         return
 
-    _setup_entities(hass, async_add_entities)
+    _setup_entities(hass, async_add_entities, AWATTAR_COORDINATOR)

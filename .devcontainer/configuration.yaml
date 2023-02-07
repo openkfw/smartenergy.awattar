@@ -14,4 +14,4 @@ sensor:
       - "date_time"
 
 smartenergy_awattar:
-  host: https://api.awattar.de
+  country: de

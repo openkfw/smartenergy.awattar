@@ -139,7 +139,7 @@ pytest
 pytest -o log_cli=true
 
 # code coverage
-pytest --durations=10 --cov-report term-missing --cov=custom_components.awattar tests
+pytest --durations=10 --cov-report term-missing --cov=custom_components.smartenergy_awattar tests
 ```
 
 > **Note: In case you have issues with bcrypt circular import, run this:**
