@@ -6,11 +6,10 @@ This is a recommended approach by Home Assistant, but feels a bit buggy at the m
 
 1. Install `ms-vscode-remote.remote-containers` VSCode plugin.
 2. Restart VSCode and click `Reopen in Container` on bottom right.
-3. Wait few moments to finish the setup and open the command palette, search for `Tasks: Run Task` and select `Run the mock API server`. This will start the mock  Awattar REST API.
-4. Open the command palette again, search for `Tasks: Run Task` and select `Run Home Assistant on port 9123`. This will start the Home Assistant with the custom component on port `9123`.
-5. Open the <http://127.0.0.1:9123> in a browser.
-6. Create an account. **This feels quite buggy at the moment and you have to refresh the browser several times.**
-7. You should see bunch of auto-created cards on the dashboard.
+3. Open the command palette again, search for `Tasks: Run Task` and select `Run Home Assistant on port 9123`. This will start the Home Assistant with the custom component on port `9123`.
+4. Open the <http://127.0.0.1:9123> in a browser.
+5. Create an account. **This feels quite buggy at the moment and you have to refresh the browser several times.**
+6. You should see bunch of auto-created cards on the dashboard.
 
 If you change the code, you'll have to restart the task `Run Home Assistant on port 9123` by running `Tasks: Restart Running Task` from the command palette.
 
@@ -116,7 +115,7 @@ pip freeze | xargs pip uninstall -y
 Linting is done via [Pylint](https://www.pylint.org/).
 
 ```bash
-pylint tests/**/*.py custom_components/**/*.py mock_api/**/*.py
+pylint tests/**/*.py custom_components/**/*.py
 ```
 
 ## Formatting

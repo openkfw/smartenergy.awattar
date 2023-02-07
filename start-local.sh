@@ -6,18 +6,6 @@ CONTAINER_NAME="homeassistant_awattar"
 
 podman network create -d bridge $PROJECT || true
 
-printf "\n>>> Building the Mock API image\n"
-podman build -t mock-api ./mock_api
-
-printf "\n>>> Removing running Mock API container\n"
-podman rm -f mock-api || true
-
-printf "\n>>> Starting Mock API container\n"
-podman run -d --name mock-api \
---network $PROJECT \
--p 4000:4000 \
-mock-api
-
 printf "\n>>> Building a custom Home Assistant image\n"
 podman build -t ha-custom .
 

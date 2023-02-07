@@ -1,12 +1,6 @@
 version: "3.9"
 
 services:
-  mock-api:
-    build: ./mock_api
-    container_name: mock-api
-    ports:
-      - "4000:4000"
-
   homeassistant:
     build:
       context: .

@@ -14,4 +14,4 @@ sensor:
       - "date_time"
 
 smartenergy_awattar:
-  host: http://mock-api:4000
+  host: https://api.awattar.de
