@@ -49,7 +49,7 @@ class ForecastSensor(BaseSensor, CoordinatorEntity, SensorEntity):
     def device_info(self) -> dict:
         return {
             "identifiers": {(DOMAIN, self._entity_id)},
-            "name": self._timestamp,
+            "name": self._name,
             "manufacturer": MANUFACTURER,
             "model": "",
         }
