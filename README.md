@@ -1,4 +1,4 @@
-# WIP: Homeassistant integration for Energy Price Forecast
+# Homeassistant integration for Energy Price Forecast
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 
@@ -42,8 +42,8 @@ TBD
 The integration can be configured either via UI (config flow) as described in the [How to use it - HACS section](#hacs) or via `configuration.yaml`. For example:
 
 ```yaml
-awattar:
-  awattar_api_url: https://api.awattar.de
+smartenergy_awattar:
+  country: de
 ```
 
 ## Development
