@@ -37,13 +37,13 @@ class StateFetcher:
 
         _LOGGER.debug("Updating the Awattar coordinator data...")
 
-        init_state = self._hass.data[DOMAIN][INIT_STATE]
+        initial_state = self._hass.data[DOMAIN][INIT_STATE]
         data: dict = self.coordinator.data if self.coordinator.data else {}
 
-        if API in init_state:
-            awattarApi = init_state[API]
+        if API in initial_state:
+            awattar_api = initial_state[API]
             fetched_forecast: dict = await self._hass.async_add_executor_job(
-                awattarApi.get_electricity_price
+                awattar_api.get_electricity_price
             )
 
             forecast_data = []

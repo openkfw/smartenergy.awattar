@@ -8,7 +8,7 @@ from homeassistant.const import CONF_SCAN_INTERVAL
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
 
-from .const import DOMAIN, CONF_COUNTRY, CONF_COUNTRY_LIST
+from .const import CONF_COUNTRY, CONF_COUNTRY_LIST, DOMAIN
 
 
 def _get_config_values(data_input: dict) -> dict:
@@ -66,7 +66,6 @@ class AwattarConfigFlow(ConfigFlow, domain=DOMAIN):
                 }
             )
 
-            # TODO: allow single config entry
             if not errors:
                 return self.async_create_entry(
                     title="Awattar",
@@ -77,7 +76,7 @@ class AwattarConfigFlow(ConfigFlow, domain=DOMAIN):
         return self.async_show_form(
             step_id="user",
             data_schema=data_schema,
-            errors=None if errors == {} else errors,
+            errors=None if not errors else errors,
         )
 
 
@@ -120,5 +119,5 @@ class AwattarOptionsFlowHandler(OptionsFlow):
         return self.async_show_form(
             step_id="init",
             data_schema=data_schema,
-            errors=None if errors == {} else errors,
+            errors=None if not errors else errors,
         )

@@ -1,8 +1,8 @@
 """Test the go-e Charger Cloud config flow and options flow."""
 
-import pytest
 from unittest.mock import patch
 
+import pytest
 from homeassistant import config_entries
 from homeassistant.data_entry_flow import (
     RESULT_TYPE_CREATE_ENTRY,

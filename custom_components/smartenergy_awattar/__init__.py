@@ -17,13 +17,13 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 from .const import (
     API,
+    AWATTAR_API_URL,
     AWATTAR_COORDINATOR,
+    CONF_COUNTRY,
+    CONF_COUNTRY_LIST,
     DOMAIN,
     INIT_STATE,
     UNSUB_OPTIONS_UPDATE_LISTENER,
-    CONF_COUNTRY,
-    CONF_COUNTRY_LIST,
-    AWATTAR_API_URL,
 )
 from .state import StateFetcher, init_state
 

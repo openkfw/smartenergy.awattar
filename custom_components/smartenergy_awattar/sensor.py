@@ -2,18 +2,15 @@
 
 import logging
 from collections.abc import Mapping
-from typing import Callable, Any
+from typing import Any, Callable
 
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
 from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from homeassistant.components.sensor import SensorEntity
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.typing import (
-    ConfigType,
-    DiscoveryInfoType,
-)
+from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import AWATTAR_COORDINATOR, DOMAIN, MANUFACTURER, UNIT
