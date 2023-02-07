@@ -1,0 +1,6 @@
+FROM homeassistant/home-assistant:stable
+
+RUN python3 -m pip install "smart-energy.awattar-api==0.2.0"
+
+COPY custom_components/smartenergy_awattar /config/custom_components/smartenergy_awattar
+COPY configuration.dev.yaml /config/configuration.yaml

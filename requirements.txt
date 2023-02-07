@@ -1,0 +1,6 @@
+black==22.10.0
+pylint==2.15.3
+smart-energy.awattar-api==0.2.0
+pytest-homeassistant-custom-component==0.12.10
+Flask==2.0.3
+pre-commit==2.20.0

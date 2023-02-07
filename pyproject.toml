@@ -1,0 +1,31 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=61.0"]
+
+[project]
+authors = [
+  {name = "Felix Stark", email = "felix.stark@kfw.de"},
+  {name = "Ingmar Mueller", email = "ingmar.mueller@kfw.de"},
+  {name = "Mario Macai", email = "mario.macai@accenture.com"},
+  {name = "Melissa Schmidt", email = "melissa.schmidt@accenture.com"},
+  {name = "Georgia Moldovan", email = "georgia.moldovan@accenture.com"},
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Operating System :: OS Independent",
+]
+dependencies = ["smart-energy.awattar-api"]
+description = "This is an integration for the Home Assistant for the Awattar API."
+keywords = ["awattar", "kfw", "homeassistant"]
+name = "smartenergy_awattar"
+readme = "README.md"
+requires-python = ">=3.7"
+version = "0.1.0"
+
+[project.optional-dependencies]
+dev = ["black", "pylint", "pytest-homeassistant-custom-component", "Flask", "pre-commit", "isort"]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/openkfw/smartenergy.awattar/issues"
+"Homepage" = "https://github.com/openkfw/smartenergy.awattar"

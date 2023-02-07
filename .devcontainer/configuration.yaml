@@ -1,0 +1,17 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+logger:
+  default: warning
+  logs:
+    custom_components.smartenergy_awattar: debug
+    custom_components.hacs: debug
+    aiogithubapi: debug
+
+sensor:
+  - platform: time_date
+    display_options:
+      - "date_time"
+
+smartenergy_awattar:
+  host: https://api.awattar.de
