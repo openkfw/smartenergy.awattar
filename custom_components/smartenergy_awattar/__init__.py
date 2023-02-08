@@ -1,20 +1,19 @@
 """Awattar integration."""
 
 import asyncio
+import logging
 from collections.abc import Callable
 from datetime import timedelta
-import logging
 
 import aiohttp
-from awattar_api.awattar_api import AwattarApi
+import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
-
+from awattar_api.awattar_api import AwattarApi
 from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_SCAN_INTERVAL
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
-import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.discovery import async_load_platform
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator

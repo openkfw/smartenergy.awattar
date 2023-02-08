@@ -1,10 +1,9 @@
 """Awattar state management."""
 
-from datetime import datetime
 import logging
+from datetime import datetime
 
 from awattar_api.awattar_api import AwattarApi
-
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 

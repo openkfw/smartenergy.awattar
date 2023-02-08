@@ -3,7 +3,6 @@
 from typing import Any, Literal
 
 import voluptuous as vol
-
 from homeassistant.config_entries import ConfigEntry, ConfigFlow, OptionsFlow
 from homeassistant.const import CONF_SCAN_INTERVAL
 from homeassistant.core import callback
