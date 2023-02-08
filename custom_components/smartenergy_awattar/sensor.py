@@ -1,11 +1,10 @@
 """Platform for Awattar sensor integration."""
 
+from collections.abc import Callable, Mapping
 import logging
-from collections.abc import Mapping
-from typing import Any, Callable
+from typing import Any
 
-from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity
@@ -34,7 +33,7 @@ class ForecastSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def name(self) -> str:
-        """The name of the sensor is the timestamp."""
+        """Return the name of the sensor."""
         return self._name
 
     @property
@@ -64,12 +63,17 @@ class ForecastSensor(CoordinatorEntity, SensorEntity):
 
         return {}
 
+    @property
+    def available(self) -> bool:
+        """Make the sensor (un)available based on the data availability."""
+        return not self.coordinator.data
+
 
 def _setup_entities(
     hass: HomeAssistant,
     async_add_entities: Callable,
     coordinator_name: str,
-) -> list:
+) -> None:
     async_add_entities(
         [
             ForecastSensor(

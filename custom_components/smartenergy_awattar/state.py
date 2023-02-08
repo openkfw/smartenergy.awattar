@@ -1,9 +1,10 @@
-"""Awattar state management"""
+"""Awattar state management."""
 
-import logging
 from datetime import datetime
+import logging
 
 from awattar_api.awattar_api import AwattarApi
+
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -12,19 +13,18 @@ from .const import API, DOMAIN, INIT_STATE, UNSUB_OPTIONS_UPDATE_LISTENER
 _LOGGER: logging.Logger = logging.getLogger(__name__)
 
 
-def init_state(
-    url: str,
-) -> dict[API:AwattarApi]:
-    """
-    Initialize the state with Awattar API.
-    """
+def init_state(url: str) -> dict:
+    """Initialize the state with Awattar API."""
 
     return {API: AwattarApi(url), UNSUB_OPTIONS_UPDATE_LISTENER: {}}
 
 
 class StateFetcher:
-    """Representation of the coordinator state handling. Whenever the coordinator is triggered,
-    it will call the APIs and update status data."""
+    """
+    Representation of the coordinator state handling.
+
+    Whenever the coordinator is triggered, it will call the APIs and update status data.
+    """
 
     coordinator: DataUpdateCoordinator
 
@@ -35,7 +35,7 @@ class StateFetcher:
     async def fetch_states(self) -> dict:
         """Fetch Awattar forecast via API."""
 
-        _LOGGER.debug("Updating the Awattar coordinator data...")
+        _LOGGER.debug("Updating the Awattar coordinator data")
 
         initial_state = self._hass.data[DOMAIN][INIT_STATE]
         data: dict = self.coordinator.data if self.coordinator.data else {}
