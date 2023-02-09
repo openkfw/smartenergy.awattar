@@ -21,7 +21,7 @@ def _get_config_values(data_input: dict) -> dict:
     return data
 
 
-def _get_config_schema(default_values: dict) -> dict:
+def _get_config_schema(default_values: dict) -> vol.Schema:
     return vol.Schema(
         {
             vol.Required(
@@ -36,7 +36,7 @@ def _get_config_schema(default_values: dict) -> dict:
     )
 
 
-class AwattarConfigFlow(ConfigFlow, domain=DOMAIN):
+class AwattarConfigFlow(ConfigFlow, domain=DOMAIN):  # type: ignore[call-arg]
     """Config flow for the Awattar component."""
 
     VERSION: Literal[1] = 1
