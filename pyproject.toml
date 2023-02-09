@@ -72,11 +72,6 @@ jobs = 2
 load-plugins = [
   "pylint.extensions.code_style",
   "pylint.extensions.typing",
-  "hass_constructor",
-  "hass_enforce_type_hints",
-  "hass_imports",
-  "hass_logger",
-  "pylint_per_file_ignores",
 ]
 persistent = false
 
