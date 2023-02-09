@@ -1,7 +1,8 @@
 """Fixtures for testing."""
 
-import pytest
 from typing import Generator
+
+import pytest
 
 
 @pytest.fixture(autouse=True)
@@ -9,7 +10,5 @@ from typing import Generator
 def auto_enable_custom_integrations(
     enable_custom_integrations: bool,
 ) -> Generator[None, None, None]:
-    """
-    Enable loading of custom integrations in tests.
-    """
+    """Enable loading of custom integrations in tests."""
     yield

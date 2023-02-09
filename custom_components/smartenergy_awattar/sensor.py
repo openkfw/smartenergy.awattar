@@ -1,11 +1,10 @@
 """Platform for Awattar sensor integration."""
 
-import logging
 from collections.abc import Callable, Mapping
+import logging
 from typing import Any
 
-from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity

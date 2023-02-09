@@ -1,9 +1,12 @@
 """Test the go-e Charger Cloud config flow and options flow."""
 
-from unittest.mock import patch
 from typing import Callable
+from unittest.mock import patch
 
 import pytest
+from pytest_homeassistant_custom_component.common import MockConfigEntry
+
+from custom_components.smartenergy_awattar.const import DOMAIN
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import (
@@ -11,9 +14,6 @@ from homeassistant.data_entry_flow import (
     RESULT_TYPE_FORM,
     FlowResult,
 )
-from pytest_homeassistant_custom_component.common import MockConfigEntry
-
-from custom_components.smartenergy_awattar.const import DOMAIN
 
 CONFIG_1: dict = {"country": "de", "scan_interval": 10}
 CONFIG_2: dict = {"country": "at", "scan_interval": 20}
