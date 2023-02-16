@@ -3,6 +3,7 @@
 from typing import Any, Literal
 
 import voluptuous as vol
+
 from homeassistant.config_entries import ConfigEntry, ConfigFlow, OptionsFlow
 from homeassistant.const import CONF_SCAN_INTERVAL
 from homeassistant.core import callback
@@ -11,7 +12,7 @@ from homeassistant.data_entry_flow import FlowResult
 from .const import CONF_COUNTRY, CONF_COUNTRY_LIST, DOMAIN
 
 
-def _get_config_schema(default_values: dict) -> dict:
+def _get_config_schema(default_values: dict) -> vol.Schema:
     """Define a schema with default values and return it."""
     return vol.Schema(
         {
@@ -27,7 +28,7 @@ def _get_config_schema(default_values: dict) -> dict:
     )
 
 
-class AwattarConfigFlow(ConfigFlow, domain=DOMAIN):
+class AwattarConfigFlow(ConfigFlow, domain=DOMAIN):  # type: ignore[call-arg]
     """Config flow for the Awattar component."""
 
     VERSION: Literal[1] = 1

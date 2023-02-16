@@ -1,17 +1,19 @@
 """Platform for Awattar sensor integration."""
 
-import logging
 from collections.abc import Callable, Mapping
+import logging
 from typing import Any
 
-from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
-from homeassistant.components.sensor import SensorEntity
+from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.helpers.update_coordinator import (
+    CoordinatorEntity,
+    DataUpdateCoordinator,
+)
 
 from .const import AWATTAR_COORDINATOR, DOMAIN, MANUFACTURER, UNIT
 
@@ -23,8 +25,8 @@ class ForecastSensor(CoordinatorEntity, SensorEntity):
 
     def __init__(
         self,
-        coordinator,
-        entity_id,
+        coordinator: DataUpdateCoordinator,
+        entity_id: str,
     ) -> None:
         """Initialize the Base sensor."""
         super().__init__(coordinator)
