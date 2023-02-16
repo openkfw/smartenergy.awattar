@@ -12,7 +12,7 @@ from homeassistant.data_entry_flow import FlowResult
 from .const import CONF_COUNTRY, CONF_COUNTRY_LIST, DOMAIN
 
 
-def _get_config_schema(default_values: dict) -> dict:
+def _get_config_schema(default_values: dict) -> vol.Schema:
     """Define a schema with default values and return it."""
     return vol.Schema(
         {
