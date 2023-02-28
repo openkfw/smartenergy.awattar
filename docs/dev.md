@@ -73,6 +73,38 @@ Example config:
 
 11. Go to the dashboard screen, you should see bunch of sensors for the Awattar integration.
 
+## Apex card
+
+To enable Apex cards:
+
+1. Open the Home Assistant GUI
+2. Go to your profile and enable Advanced Mode
+3. Go to the Overview
+4. Click on 3 dots -> Edit Dashboard -> Manage Resources
+5. Add 2 new resources: `/local/apexcharts-card.js` and `/config/www/apexcharts-card.js`
+6. Go back to the Dashboard and you should be able to add an Apex card like this:
+
+```yaml
+type: custom:apexcharts-card
+graph_span: 1d
+span:
+  start: hour
+header:
+  show: true
+  title: Awattar Price Forecast
+  show_states: true
+  colorize_states: true
+now:
+  show: true
+  label: Now
+series:
+  - entity: sensor.smartenergy_awattar_forecast
+    data_generator: |
+      return entity.attributes.forecast.map((f, index) => {
+        return [f.start_time, f.marketprice];
+      });
+```
+
 ## Working with virtual env
 
 It is highly recommended to work from within a virtual environment as especially dependencies can mess up quite easily.

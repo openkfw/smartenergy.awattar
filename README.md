@@ -29,13 +29,40 @@ TBD
 
 ### Example Lovelace card
 
-TBD
+Since the forecast is an array of values, it's not possible to nicely display by default as a card. However, you can install this integration <https://github.com/RomRider/apexcharts-card>. In the card configuration provide:
+
+```yaml
+type: custom:apexcharts-card
+graph_span: 1d
+span:
+  start: hour
+header:
+  show: true
+  title: Awattar Price Forecast
+  show_states: true
+  colorize_states: true
+now:
+  show: true
+  label: Now
+series:
+  - entity: sensor.smartenergy_awattar_forecast
+    data_generator: |
+      return entity.attributes.forecast.map((f, index) => {
+        return [f.start_time, f.marketprice];
+      });
+```
+
+Outcome should look like this:
+
+![Apex card](./docs/apex-card.png)
 
 ## Features
 
 ### Sensors
 
-TBD
+| Name                           | Attributes | Description                                                                                    |
+| ------------------------------ | ---------- | ---------------------------------------------------------------------------------------------- |
+| `smartenergy_awattar_forecast` | `forecast` | Sensor having the `forecast` attribute containing the 24 hour forecast for the Awattar prices. |
 
 ### Configuration
 

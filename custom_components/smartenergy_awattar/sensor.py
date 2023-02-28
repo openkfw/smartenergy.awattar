@@ -67,6 +67,11 @@ class ForecastSensor(CoordinatorEntity, SensorEntity):
         return {}
 
     @property
+    def native_value(self) -> bool:
+        """Return the state of the sensor."""
+        return True
+
+    @property
     def available(self) -> bool:
         """Make the sensor (un)available based on the data availability."""
         return not self.coordinator.data
