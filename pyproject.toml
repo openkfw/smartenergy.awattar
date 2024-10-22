@@ -21,7 +21,7 @@ keywords = ["awattar", "kfw", "homeassistant"]
 name = "smartenergy_awattar"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "0.2.2"
+version = "0.2.3"
 
 [tool.black]
 extend-exclude = "/generated/"

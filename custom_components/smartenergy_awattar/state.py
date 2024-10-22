@@ -6,6 +6,7 @@ from datetime import datetime
 from awattar_api.awattar_api import AwattarApi
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant.util import dt as dt_util
 
 from .const import API, DOMAIN, INIT_STATE, UNSUB_OPTIONS_UPDATE_LISTENER
 
@@ -36,6 +37,8 @@ class StateFetcher:
 
         _LOGGER.debug("Updating the Awattar coordinator data")
 
+        local_tz = dt_util.get_time_zone(self._hass.config.time_zone)
+
         initial_state = self._hass.data[DOMAIN][INIT_STATE]
         data: dict = self.coordinator.data if self.coordinator.data else {}
 
@@ -48,15 +51,17 @@ class StateFetcher:
             forecast_data = []
 
             for forecast_entry in fetched_forecast["data"]:
-                # convert timestamp to human readable date
+                # Convert UTC timestamps to local time using Home Assistant's time zone
+                start_time_utc = dt_util.utc_from_timestamp(forecast_entry["start_timestamp"] / 1000)
+                end_time_utc = dt_util.utc_from_timestamp(forecast_entry["end_timestamp"] / 1000)
+
+                start_time_local = start_time_utc.astimezone(local_tz)
+                end_time_local = end_time_utc.astimezone(local_tz)
+
                 forecast_data.append(
                     {
-                        "start_time": datetime.utcfromtimestamp(
-                            forecast_entry["start_timestamp"] / 1000
-                        ).strftime("%Y-%m-%d %H:%M:%S"),
-                        "end_time": datetime.utcfromtimestamp(
-                            forecast_entry["end_timestamp"] / 1000
-                        ).strftime("%Y-%m-%d %H:%M:%S"),
+                        "start_time": start_time_local.strftime("%Y-%m-%d %H:%M:%S"),
+                        "end_time": end_time_local.strftime("%Y-%m-%d %H:%M:%S"),
                         "marketprice": forecast_entry["marketprice"],
                     }
                 )
